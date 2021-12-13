@@ -143,13 +143,6 @@ describe("Showing correct entity settings", () => {
     it("shows Node Shell setting tab header", () => {
       expect(rendered.queryByTestId("node-shell-tab")).toBeInTheDocument();
     });
-
-    it("shows the setting tabs in the correct order", () => {
-      expect(rendered.getByTestId("proxy-tab").nextSibling).toHaveAttribute("data-testid", "terminal-tab");
-      expect(rendered.getByTestId("terminal-tab").nextSibling).toHaveAttribute("data-testid", "namespace-tab");
-      expect(rendered.getByTestId("namespace-tab").nextSibling).toHaveAttribute("data-testid", "metrics-tab");
-      expect(rendered.getByTestId("metrics-tab").nextSibling).toHaveAttribute("data-testid", "node-shell-tab");
-    });
   });
 
   describe("when navigating to local cluster entity settings", () => {
@@ -190,14 +183,6 @@ describe("Showing correct entity settings", () => {
     it("shows Node Shell setting tab header", () => {
       expect(rendered.queryByTestId("node-shell-tab")).toBeInTheDocument();
     });
-
-    it("shows the setting tabs in the correct order", () => {
-      expect(rendered.getByTestId("general-tab").nextSibling).toHaveAttribute("data-testid", "proxy-tab");
-      expect(rendered.getByTestId("proxy-tab").nextSibling).toHaveAttribute("data-testid", "terminal-tab");
-      expect(rendered.getByTestId("terminal-tab").nextSibling).toHaveAttribute("data-testid", "namespace-tab");
-      expect(rendered.getByTestId("namespace-tab").nextSibling).toHaveAttribute("data-testid", "metrics-tab");
-      expect(rendered.getByTestId("metrics-tab").nextSibling).toHaveAttribute("data-testid", "node-shell-tab");
-    });
   });
 
   describe("when navigating to weblink entity settings", () => {
@@ -219,8 +204,8 @@ describe("Showing correct entity settings", () => {
       expect(rendered.queryByTestId("general-tab")).not.toBeInTheDocument();
     });
 
-    it("shows no settings page info", () => {
-      expect(rendered.baseElement.querySelector("[data-preference-page-does-not-exist-test='true']")).toBeInTheDocument();
+    it("shows the short name setting", () => {
+      expect(rendered.queryByTestId("short-name-tab")).toBeInTheDocument();
     });
   });
 });

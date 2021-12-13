@@ -93,7 +93,7 @@ export class KubernetesCluster<
     }
   }
 
-  async onRun(context: CatalogEntityActionContext) {
+  onRun(context: CatalogEntityActionContext) {
     context.navigate(`/cluster/${this.getId()}`);
   }
 

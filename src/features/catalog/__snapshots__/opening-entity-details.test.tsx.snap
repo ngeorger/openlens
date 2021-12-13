@@ -752,7 +752,7 @@ exports[`opening catalog entity details panel when navigated to the catalog rend
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -825,7 +825,7 @@ exports[`opening catalog entity details panel when navigated to the catalog rend
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -898,7 +898,7 @@ exports[`opening catalog entity details panel when navigated to the catalog rend
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -1573,7 +1573,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -1646,7 +1646,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -1719,7 +1719,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -2426,7 +2426,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -2499,7 +2499,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -2572,7 +2572,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -3279,7 +3279,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -3352,7 +3352,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -3425,7 +3425,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -3782,7 +3782,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
             <div
               class="Avatar rounded avatar"
               data-testid="detail-panel-hot-bar-icon"
-              style="width: 128px; height: 128px; background: rgb(140, 4, 8);"
+              style="width: 128px; height: 128px; background-color: rgb(9, 124, 92);"
             >
               skc
             </div>
@@ -4397,7 +4397,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -4470,7 +4470,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -4543,7 +4543,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -5238,7 +5238,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -5311,7 +5311,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -5384,7 +5384,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -6079,7 +6079,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(140, 4, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(9, 124, 92);"
                                   >
                                     skc
                                   </div>
@@ -6152,7 +6152,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(77, 163, 16);"
+                                    style="width: 24px; height: 24px; background-color: rgb(53, 8, 142);"
                                   >
                                     sw
                                   </div>
@@ -6225,7 +6225,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
                                 >
                                   <div
                                     class="Avatar rounded catalogAvatar"
-                                    style="width: 24px; height: 24px; background: rgb(83, 137, 8);"
+                                    style="width: 24px; height: 24px; background-color: rgb(83, 137, 8);"
                                   >
                                     slk
                                   </div>
@@ -6508,7 +6508,7 @@ exports[`opening catalog entity details panel when navigated to the catalog when
             <div
               class="Avatar rounded avatar"
               data-testid="detail-panel-hot-bar-icon"
-              style="width: 128px; height: 128px; background: rgb(77, 163, 16);"
+              style="width: 128px; height: 128px; background-color: rgb(53, 8, 142);"
             >
               sw
             </div>

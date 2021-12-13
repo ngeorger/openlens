@@ -9,8 +9,6 @@ import { clusterActivateHandler, clusterSetFrameIdHandler, clusterDisconnectHand
 import type { ClusterId } from "../../../../common/cluster-types";
 import type { ClusterStore } from "../../../../common/cluster-store/cluster-store";
 import { broadcastMainChannel, broadcastMessage, ipcMainHandle, ipcMainOn } from "../../../../common/ipc";
-import type { CatalogEntityRegistry } from "../../../catalog";
-import { pushCatalogToRenderer } from "../../../catalog-pusher";
 import type { IComputedValue } from "mobx";
 import { windowActionHandleChannel, windowLocationChangedChannel, windowOpenAppMenuAsContextMenuChannel } from "../../../../common/ipc/window";
 import { handleWindowAction, onLocationChange } from "../../../ipc/window";
@@ -22,7 +20,6 @@ import type { EmitAppEvent } from "../../../../common/app-event-bus/emit-event.i
 import type { GetClusterById } from "../../../../common/cluster-store/get-by-id.injectable";
 interface Dependencies {
   applicationMenuItemComposite: IComputedValue<Composite<ApplicationMenuItemTypes | MenuItemRoot>>;
-  catalogEntityRegistry: CatalogEntityRegistry;
   clusterStore: ClusterStore;
   emitAppEvent: EmitAppEvent;
   getClusterById: GetClusterById;
@@ -30,7 +27,6 @@ interface Dependencies {
 
 export const setupIpcMainHandlers = ({
   applicationMenuItemComposite,
-  catalogEntityRegistry,
   clusterStore,
   emitAppEvent,
   getClusterById,
@@ -45,8 +41,6 @@ export const setupIpcMainHandlers = ({
 
     if (cluster) {
       clusterFrameMap.set(cluster.id, { frameId: event.frameId, processId: event.processId });
-
-      pushCatalogToRenderer(catalogEntityRegistry);
     }
   });
 

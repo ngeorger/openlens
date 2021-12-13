@@ -373,7 +373,7 @@ exports[`Showing correct entity settings when navigating to local cluster entity
               >
                 <div
                   class="Avatar rounded settingsAvatar"
-                  style="width: 40px; height: 40px; background: rgb(83, 137, 8);"
+                  style="width: 40px; height: 40px; background-color: rgb(83, 137, 8);"
                 >
                   slk
                 </div>
@@ -414,6 +414,18 @@ exports[`Showing correct entity settings when navigating to local cluster entity
                     class="label"
                   >
                     Proxy
+                  </div>
+                </div>
+                <div
+                  class="Tab flex gaps align-center"
+                  data-testid="short-name-tab"
+                  role="tab"
+                  tabindex="0"
+                >
+                  <div
+                    class="label"
+                  >
+                    Short Name
                   </div>
                 </div>
                 <div
@@ -735,7 +747,7 @@ exports[`Showing correct entity settings when navigating to non-local cluster en
               >
                 <div
                   class="Avatar rounded settingsAvatar"
-                  style="width: 40px; height: 40px; background: rgb(9, 124, 92);"
+                  style="width: 40px; height: 40px; background-color: rgb(9, 124, 92);"
                 >
                   skc
                 </div>
@@ -764,6 +776,18 @@ exports[`Showing correct entity settings when navigating to non-local cluster en
                     class="label"
                   >
                     Proxy
+                  </div>
+                </div>
+                <div
+                  class="Tab flex gaps align-center"
+                  data-testid="short-name-tab"
+                  role="tab"
+                  tabindex="0"
+                >
+                  <div
+                    class="label"
+                  >
+                    Short Name
                   </div>
                 </div>
                 <div
@@ -1085,7 +1109,7 @@ exports[`Showing correct entity settings when navigating to weblink entity setti
               >
                 <div
                   class="Avatar rounded settingsAvatar"
-                  style="width: 40px; height: 40px; background: rgb(53, 8, 142);"
+                  style="width: 40px; height: 40px; background-color: rgb(53, 8, 142);"
                 >
                   sw
                 </div>
@@ -1097,7 +1121,26 @@ exports[`Showing correct entity settings when navigating to weblink entity setti
               </div>
               <div
                 class="Tabs flex column"
-              />
+              >
+                <hr />
+                <div
+                  class="header"
+                >
+                  Settings
+                </div>
+                <div
+                  class="Tab flex gaps align-center active"
+                  data-testid="short-name-tab"
+                  role="tab"
+                  tabindex="0"
+                >
+                  <div
+                    class="label"
+                  >
+                    Short Name
+                  </div>
+                </div>
+              </div>
             </div>
           </nav>
           <div
@@ -1107,16 +1150,48 @@ exports[`Showing correct entity settings when navigating to weblink entity setti
             <div
               class="content"
             >
-              <div
-                class="flex items-center"
-                data-preference-page-does-not-exist-test="true"
-              >
-                No settings found for
-                 
-                entity.k8slens.dev/v1alpha1
-                /
-                WebLink
-              </div>
+              <section>
+                <h2
+                  data-testid="short-name-header"
+                >
+                  Short Name
+                </h2>
+                <section>
+                  <section>
+                    <section>
+                      <div
+                        class="SubTitle"
+                      >
+                        Entity Short Name
+                         
+                      </div>
+                      <div
+                        class="Input theme round black"
+                      >
+                        <label
+                          class="input-area flex gaps align-center"
+                          id=""
+                        >
+                          <input
+                            class="input box grow"
+                            placeholder="sw"
+                            spellcheck="false"
+                            value=""
+                          />
+                        </label>
+                        <div
+                          class="input-info flex gaps"
+                        />
+                      </div>
+                      <small
+                        class="hint"
+                      >
+                        The text for entity icons. By default it is calculated from the entity name.
+                      </small>
+                    </section>
+                  </section>
+                </section>
+              </section>
             </div>
             <div
               class="toolsRegion"
