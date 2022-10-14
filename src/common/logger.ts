@@ -7,11 +7,11 @@ import { asLegacyGlobalForExtensionApi } from "../extensions/as-legacy-globals-f
 import loggerInjectable from "./logger.injectable";
 
 export interface Logger {
-  info: (message: string, ...args: any) => void;
-  error: (message: string, ...args: any) => void;
-  debug: (message: string, ...args: any) => void;
-  warn: (message: string, ...args: any) => void;
-  silly: (message: string, ...args: any) => void;
+  info: (message: string, ...args: any[]) => void;
+  error: (message: string, ...args: any[]) => void;
+  debug: (message: string, ...args: any[]) => void;
+  warn: (message: string, ...args: any[]) => void;
+  silly: (message: string, ...args: any[]) => void;
 }
 
 /**

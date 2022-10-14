@@ -17,7 +17,6 @@ import initializeExtensionsInjectable from "./start-main-application/runnables/i
 import lensResourcesDirInjectable from "../common/vars/lens-resources-dir.injectable";
 import environmentVariablesInjectable from "../common/utils/environment-variables.injectable";
 import setupIpcMainHandlersInjectable from "./electron-app/runnables/setup-ipc-main-handlers/setup-ipc-main-handlers.injectable";
-import setupLensProxyInjectable from "./start-main-application/runnables/setup-lens-proxy.injectable";
 import setupShellInjectable from "../features/shell-sync/main/setup-shell.injectable";
 import setupSyncingOfWeblinksInjectable from "./start-main-application/runnables/setup-syncing-of-weblinks.injectable";
 import stopServicesAndExitAppInjectable from "./stop-services-and-exit-app.injectable";
@@ -182,7 +181,6 @@ const overrideRunnablesHavingSideEffects = (di: DiContainer) => {
     initializeClusterManagerInjectable,
     addKubeconfigSyncAsEntitySourceInjectable,
     setupIpcMainHandlersInjectable,
-    setupLensProxyInjectable,
     setupShellInjectable,
     setupSyncingOfWeblinksInjectable,
     setupSystemCaInjectable,
