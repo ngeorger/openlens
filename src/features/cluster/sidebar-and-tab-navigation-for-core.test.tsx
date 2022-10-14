@@ -47,6 +47,10 @@ describe("cluster - sidebar and tab navigation for core", () => {
     });
   });
 
+  afterEach(() => {
+    builder.quit();
+  });
+
   describe("given core registrations", () => {
     beforeEach(() => {
       builder.beforeWindowStart((windowDi) => {

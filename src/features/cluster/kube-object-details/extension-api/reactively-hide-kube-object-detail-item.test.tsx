@@ -87,6 +87,11 @@ describe("reactively hide kube object detail item", () => {
     builder.extensions.enable(testExtension);
   });
 
+
+  afterEach(() => {
+    builder.quit();
+  });
+
   it("renders", () => {
     expect(rendered.baseElement).toMatchSnapshot();
   });
