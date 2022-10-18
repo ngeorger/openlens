@@ -9,7 +9,6 @@ import { TextEncoder, TextDecoder as TextDecoderNode } from "util";
 import glob from "glob";
 import path from "path";
 import { enableMapSet, setAutoFreeze } from "immer";
-import { WebSocket } from "ws";
 
 configure({
   // Needed because we want to use jest.spyOn()
@@ -42,8 +41,6 @@ global.ResizeObserver = class {
   unobserve = () => {};
   disconnect = () => {};
 };
-
-global.WebSocket = WebSocket as any;
 
 jest.mock("./renderer/components/monaco-editor/monaco-editor");
 jest.mock("./renderer/components/tooltip/withTooltip");

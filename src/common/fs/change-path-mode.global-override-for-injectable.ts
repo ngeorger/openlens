@@ -4,8 +4,8 @@
  */
 
 import { getGlobalOverride } from "../test-utils/get-global-override";
-import ensureDirInjectable from "./ensure-dir.injectable";
+import changePathModeInjectable from "./change-path-mode.injectable";
 
-export default getGlobalOverride(ensureDirInjectable, () => async () => {
-  throw new Error("tried to ensure directory without override");
+export default getGlobalOverride(changePathModeInjectable, () => () => {
+  throw new Error("tried to change path mode without override");
 });
