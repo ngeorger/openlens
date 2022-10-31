@@ -3,6 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import type { RenderResult } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import type { ApplicationBuilder } from "../../../../renderer/components/test-utils/get-application-builder";
 import { getApplicationBuilder } from "../../../../renderer/components/test-utils/get-application-builder";
 import { getInjectable } from "@ogre-tools/injectable";
@@ -12,7 +13,6 @@ import { observable, runInAction, computed } from "mobx";
 import React from "react";
 import { navigateToRouteInjectionToken } from "../../../../common/front-end-routing/navigate-to-route-injection-token";
 import { routeSpecificComponentInjectionToken } from "../../../../renderer/routes/route-specific-component-injection-token";
-import extensionShouldBeEnabledForClusterFrameInjectable from "../../../../renderer/extension-loader/extension-should-be-enabled-for-cluster-frame.injectable";
 import { KubeObject } from "../../../../common/k8s-api/kube-object";
 import { KubeObjectStatusLevel } from "../../../../common/k8s-api/kube-object-status";
 import { KubeObjectStatusIcon } from "../../../../renderer/components/kube-object-status-icon";
@@ -28,8 +28,6 @@ describe("reactively hide kube object status", () => {
     builder.setEnvironmentToClusterFrame();
 
     builder.beforeWindowStart((windowDi) => {
-      windowDi.unoverride(extensionShouldBeEnabledForClusterFrameInjectable);
-
       runInAction(() => {
         windowDi.register(testRouteInjectable, testRouteComponentInjectable);
       });
@@ -74,24 +72,16 @@ describe("reactively hide kube object status", () => {
     builder.quit();
   });
 
-  it("does not show the kube object status", () => {
-    const actual = rendered.baseElement.querySelectorAll(
-      ".KubeObjectStatusIcon",
-    );
-
-    expect(actual).toHaveLength(0);
+  it("does not show the kube object status", async () => {
+    await waitFor(() => expect(rendered.baseElement.querySelectorAll(".KubeObjectStatusIcon")).toHaveLength(0));
   });
 
-  it("given item should be shown, shows the kube object status", () => {
+  it("given item should be shown, shows the kube object status", async () => {
     runInAction(() => {
       someObservable.set(true);
     });
 
-    const actual = rendered.baseElement.querySelectorAll(
-      ".KubeObjectStatusIcon",
-    );
-
-    expect(actual).toHaveLength(1);
+    await waitFor(() => expect(rendered.baseElement.querySelectorAll(".KubeObjectStatusIcon")).toHaveLength(1));
   });
 });
 

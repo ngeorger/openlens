@@ -10,11 +10,9 @@ import { Environments, setLegacyGlobalDiForExtensionApi } from "../extensions/as
 import requestFromChannelInjectable from "./utils/channel/request-from-channel.injectable";
 import loggerInjectable from "../common/logger.injectable";
 import { getOverrideFsWithFakes } from "../test-utils/override-fs-with-fakes";
-import { createMemoryHistory } from "history";
 import focusWindowInjectable from "./navigation/focus-window.injectable";
 import terminalSpawningPoolInjectable from "./components/dock/terminal/terminal-spawning-pool.injectable";
 import hostedClusterIdInjectable from "./cluster-frame-context/hosted-cluster-id.injectable";
-import historyInjectable from "./navigation/history.injectable";
 import lensResourcesDirInjectable from "../common/vars/lens-resources-dir.injectable";
 import broadcastMessageInjectable from "../common/ipc/broadcast-message.injectable";
 import { computed, runInAction } from "mobx";
@@ -101,7 +99,6 @@ export const getDiForUnitTesting = (
     di.override(terminalSpawningPoolInjectable, () => document.createElement("div"));
     di.override(hostedClusterIdInjectable, () => undefined);
 
-    di.override(historyInjectable, () => createMemoryHistory());
     di.override(legacyOnChannelListenInjectable, () => () => noop);
 
     di.override(storageSaveDelayInjectable, () => 0);

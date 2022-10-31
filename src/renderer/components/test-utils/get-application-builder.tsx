@@ -12,7 +12,7 @@ import { Router } from "react-router";
 import type { RenderResult } from "@testing-library/react";
 import { fireEvent, queryByText } from "@testing-library/react";
 import type { KubeApiResourceDescriptor } from "../../../common/rbac";
-import { formatKubeApiResource } from "../../../common/rbac";
+import { apiResourceRecord, formatKubeApiResource } from "../../../common/rbac";
 import type { DiContainer, Injectable } from "@ogre-tools/injectable";
 import { getInjectable } from "@ogre-tools/injectable";
 import mainExtensionsInjectable from "../../../extensions/main-extensions.injectable";
@@ -73,6 +73,12 @@ import currentLocationInjectable from "../../api/current-location.injectable";
 import lensProxyPortInjectable from "../../../main/lens-proxy/lens-proxy-port.injectable";
 import { runManyFor } from "../../../common/runnable/run-many-for";
 import { beforeQuitOfBackEndInjectionToken } from "../../../main/start-main-application/runnable-tokens/before-quit-of-back-end-injection-token";
+import catalogEntityRegistryInjectable from "../../api/catalog/entity/registry.injectable";
+import { KubernetesCluster, LensKubernetesClusterStatus } from "../../../common/catalog-entities";
+import listNamespacesForInjectable from "../../../common/cluster/list-namespaces.injectable";
+import requestApiResourcesInjectable from "../../../common/cluster/request-api-resources.injectable";
+import { object } from "../../utils";
+import requestNamespaceListPermissionsForInjectable from "../../../common/cluster/request-namespace-list-permissions.injectable";
 
 type Callback = (di: DiContainer) => void | Promise<void>;
 
@@ -217,7 +223,6 @@ export const getApplicationBuilder = () => {
   }));
 
   const allowedResourcesState = observable.set<string>();
-
   const windowHelpers = new Map<string, { di: DiContainer; getRendered: () => RenderResult }>();
 
   const createElectronWindowFake: CreateElectronWindow = (configuration) => {
@@ -265,7 +270,6 @@ export const getApplicationBuilder = () => {
         }
 
         const history = windowDi.inject(historyInjectable);
-
         const render = renderFor(windowDi);
 
         rendered = render((
@@ -313,19 +317,42 @@ export const getApplicationBuilder = () => {
 
     applicationHasStarted = true;
   };
+  const clusterEntity = new KubernetesCluster({
+    metadata: {
+      labels: {},
+      name: "some-context-name",
+      uid: clusterId,
+    },
+    spec: {
+      kubeconfigContext: "some-context-name",
+      kubeconfigPath: "/some-kube-config-path",
+    },
+    status: {
+      phase: LensKubernetesClusterStatus.DISCONNECTED,
+    },
+  });
 
   mainDi.override(getClusterByIdInjectable, () => (id) => clusters.get(id));
 
-  beforeWindowStartCallbacks.push((windowDi) => windowDi.override(getClusterByIdInjectable, () => (id) => clusters.get(id)));
-  beforeWindowStartCallbacks.push((windowDi) => windowDi.override(currentLocationInjectable, () => {
-    const port = mainDi.inject(lensProxyPortInjectable);
-
-    return {
+  beforeWindowStartCallbacks.push((windowDi) => {
+    windowDi.override(getClusterByIdInjectable, () => (id) => clusters.get(id));
+    windowDi.override(currentLocationInjectable, () => ({
       hostname: "localhost",
-      port: `${port.get()}`,
+      port: `${mainDi.inject(lensProxyPortInjectable).get()}`,
       protocol: "http",
-    };
-  }));
+    }));
+  });
+
+  afterWindowStartCallbacks.push((windowDi) => {
+    windowDi.inject(catalogEntityRegistryInjectable).updateItems([clusterEntity]);
+  });
+
+  mainDi.override(listNamespacesForInjectable, () => () => async () => [...namespaces]);
+  mainDi.override(requestApiResourcesInjectable, () => async () => (
+    object.entries(apiResourceRecord)
+      .map(([apiName, data]) => ({ apiName, ...data }))
+  ));
+  mainDi.override(requestNamespaceListPermissionsForInjectable, () => () => async () => (resource) => allowedResourcesState.has(formatKubeApiResource(resource)));
 
   runInAction(() => {
     mainDi.register(getInjectable({
@@ -569,6 +596,10 @@ export const getApplicationBuilder = () => {
         windowDi.permitSideEffects(terminalSpawningPoolInjectable);
       });
 
+      builder.afterWindowStart(windowDi => {
+        windowDi.inject(catalogEntityRegistryInjectable).activeEntity = clusterEntity;
+      });
+
       return builder;
     },
 
@@ -604,29 +635,32 @@ export const getApplicationBuilder = () => {
 
       enable: (...extensions) => {
         builder.afterWindowStart((windowDi) => {
-          const rendererExtensionInstances = extensions.map((options) =>
-            getExtensionFakeForRenderer(
-              windowDi,
-              options.id,
-              options.name,
-              options.rendererOptions || {},
-            ),
-          );
+          const enabledExtension = enableExtensionFor(windowDi, rendererExtensionsStateInjectable);
 
-          rendererExtensionInstances.forEach(
-            enableExtensionFor(windowDi, rendererExtensionsStateInjectable),
-          );
+          runInAction(() => {
+            for (const extension of extensions) {
+              enabledExtension(getExtensionFakeForRenderer(
+                windowDi,
+                extension.id,
+                extension.name,
+                extension.rendererOptions ?? {},
+              ));
+            }
+          });
         });
 
         builder.afterApplicationStart((mainDi) => {
-          const mainExtensionInstances = extensions.map((extension) =>
-            getExtensionFakeForMain(mainDi, extension.id, extension.name, extension.mainOptions || {}),
-          );
+          const enabledExtension = enableExtensionFor(mainDi, mainExtensionsStateInjectable);
 
           runInAction(() => {
-            mainExtensionInstances.forEach(
-              enableExtensionFor(mainDi, mainExtensionsStateInjectable),
-            );
+            for (const extension of extensions) {
+              enabledExtension(getExtensionFakeForMain(
+                mainDi,
+                extension.id,
+                extension.name,
+                extension.mainOptions ?? {},
+              ));
+            }
           });
         });
       },
@@ -854,11 +888,8 @@ const enableExtensionFor = (
 ) => {
   const extensionState = di.inject(stateInjectable);
 
-  const getExtension = (extension: LensExtension) =>
-    di.inject(extensionInjectable, extension);
-
   return (extensionInstance: LensExtension) => {
-    const extension = getExtension(extensionInstance);
+    const extension = di.inject(extensionInjectable, extensionInstance);
 
     runInAction(() => {
       extension.register();
@@ -873,11 +904,7 @@ const disableExtensionFor =
     stateInjectable: Injectable<ObservableMap<string, any>, unknown, void>,
   ) =>
     (id: string) => {
-      const getExtension = (extension: LensExtension) =>
-        di.inject(extensionInjectable, extension);
-
       const extensionsState = di.inject(stateInjectable);
-
       const instance = extensionsState.get(id);
 
       if (!instance) {
@@ -886,11 +913,10 @@ const disableExtensionFor =
         );
       }
 
-      const injectable = getExtension(instance);
+      const extension = di.inject(extensionInjectable, instance);
 
       runInAction(() => {
-        injectable.deregister();
-
+        extension.deregister();
         extensionsState.delete(id);
       });
     };
