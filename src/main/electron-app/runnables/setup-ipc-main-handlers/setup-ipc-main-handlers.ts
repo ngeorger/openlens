@@ -12,8 +12,8 @@ import { broadcastMainChannel, broadcastMessage, ipcMainHandle, ipcMainOn } from
 import type { CatalogEntityRegistry } from "../../../catalog";
 import { pushCatalogToRenderer } from "../../../catalog-pusher";
 import type { IComputedValue } from "mobx";
-import { windowActionHandleChannel, windowLocationChangedChannel, windowOpenAppMenuAsContextMenuChannel } from "../../../../common/ipc/window";
-import { handleWindowAction, onLocationChange } from "../../../ipc/window";
+import { windowActionHandleChannel, windowOpenAppMenuAsContextMenuChannel } from "../../../../common/ipc/window";
+import { handleWindowAction } from "../../../ipc/window";
 import type { ApplicationMenuItemTypes } from "../../../../features/application-menu/main/menu-items/application-menu-item-injection-token";
 import type { Composite } from "../../../../common/utils/composite/get-composite/get-composite";
 import { getApplicationMenuTemplate } from "../../../../features/application-menu/main/populate-application-menu.injectable";
@@ -61,8 +61,6 @@ export const setupIpcMainHandlers = ({
   });
 
   ipcMainHandle(windowActionHandleChannel, (event, action) => handleWindowAction(action));
-
-  ipcMainOn(windowLocationChangedChannel, () => onLocationChange());
 
   ipcMainHandle(broadcastMainChannel, (event, channel, ...args) => broadcastMessage(channel, ...args));
 

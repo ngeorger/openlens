@@ -20,9 +20,7 @@ import requestAnimationFrameInjectable from "./components/animate/request-animat
 import getRandomIdInjectable from "../common/utils/get-random-id.injectable";
 import requestPublicHelmRepositoriesInjectable from "../features/helm-charts/child-features/preferences/renderer/adding-of-public-helm-repository/public-helm-repositories/request-public-helm-repositories.injectable";
 import platformInjectable from "../common/vars/platform.injectable";
-import startTopbarStateSyncInjectable from "./components/layout/top-bar/start-state-sync.injectable";
 import { registerMobX } from "@ogre-tools/injectable-extension-for-mobx";
-import watchHistoryStateInjectable from "./remote-helpers/watch-history-state.injectable";
 import cronJobTriggerDialogClusterFrameChildComponentInjectable from "./components/+workloads-cronjobs/cron-job-trigger-dialog-cluster-frame-child-component.injectable";
 import deploymentScaleDialogClusterFrameChildComponentInjectable from "./components/+workloads-deployments/scale/deployment-scale-dialog-cluster-frame-child-component.injectable";
 import replicasetScaleDialogClusterFrameChildComponentInjectable from "./components/+workloads-replicasets/scale-dialog/replicaset-scale-dialog-cluster-frame-child-component.injectable";
@@ -30,7 +28,6 @@ import statefulsetScaleDialogClusterFrameChildComponentInjectable from "./compon
 import kubeObjectDetailsClusterFrameChildComponentInjectable from "./components/kube-object-details/kube-object-details-cluster-frame-child-component.injectable";
 import kubeconfigDialogClusterFrameChildComponentInjectable from "./components/kubeconfig-dialog/kubeconfig-dialog-cluster-frame-child-component.injectable";
 import portForwardDialogClusterFrameChildComponentInjectable from "./port-forward/port-forward-dialog-cluster-frame-child-component.injectable";
-import setupSystemCaInjectable from "./frames/root-frame/setup-system-ca.injectable";
 import extensionShouldBeEnabledForClusterFrameInjectable from "./extension-loader/extension-should-be-enabled-for-cluster-frame.injectable";
 import { asyncComputed } from "@ogre-tools/injectable-react";
 import legacyOnChannelListenInjectable from "./ipc/legacy-channel-listen.injectable";
@@ -86,16 +83,6 @@ export const getDiForUnitTesting = (
     di.override(getRandomIdInjectable, () => () => "some-irrelevant-random-id");
     di.override(platformInjectable, () => "darwin");
 
-    [
-      startTopbarStateSyncInjectable,
-      setupSystemCaInjectable,
-    ].forEach((injectable) => {
-      di.override(injectable, () => ({
-        id: injectable.id,
-        run: () => {},
-      }));
-    });
-
     di.override(terminalSpawningPoolInjectable, () => document.createElement("div"));
     di.override(hostedClusterIdInjectable, () => undefined);
 
@@ -131,7 +118,6 @@ export const getDiForUnitTesting = (
     });
 
     di.override(environmentVariablesInjectable, () => ({}));
-    di.override(watchHistoryStateInjectable, () => () => () => {});
 
     overrideFunctionalInjectables(di, [
       broadcastMessageInjectable,
