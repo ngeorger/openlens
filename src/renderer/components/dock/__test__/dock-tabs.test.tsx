@@ -19,6 +19,7 @@ import directoryForUserDataInjectable from "../../../../common/app-paths/directo
 import getConfigurationFileModelInjectable from "../../../../common/get-configuration-file-model/get-configuration-file-model.injectable";
 import assert from "assert";
 import hostedClusterIdInjectable from "../../../cluster-frame-context/hosted-cluster-id.injectable";
+import currentLocationInjectable from "../../../api/current-location.injectable";
 
 jest.mock("electron", () => ({
   app: {
@@ -81,6 +82,11 @@ describe("<DockTabs />", () => {
       directoryForUserDataInjectable,
       () => "some-test-suite-specific-directory-for-user-data",
     );
+    di.override(currentLocationInjectable, () => ({
+      hostname: "localhost",
+      port: "12345",
+      protocol: "http",
+    }));
 
     di.permitSideEffects(getConfigurationFileModelInjectable);
 
