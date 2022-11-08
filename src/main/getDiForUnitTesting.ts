@@ -48,7 +48,6 @@ import electronQuitAndInstallUpdateInjectable from "./electron-app/features/elec
 import electronUpdaterIsActiveInjectable from "./electron-app/features/electron-updater-is-active.injectable";
 import baseBundledBinariesDirectoryInjectable from "../common/vars/base-bundled-binaries-dir.injectable";
 import setUpdateOnQuitInjectable from "./electron-app/features/set-update-on-quit.injectable";
-import startCatalogSyncInjectable from "./catalog-sync-to-renderer/start-catalog-sync.injectable";
 import startKubeConfigSyncInjectable from "./start-main-application/runnables/kube-config-sync/start-kube-config-sync.injectable";
 import getRandomIdInjectable from "../common/utils/get-random-id.injectable";
 import execFileInjectable from "../common/fs/exec-file.injectable";
@@ -185,7 +184,6 @@ const overrideRunnablesHavingSideEffects = (di: DiContainer) => {
     setupSyncingOfWeblinksInjectable,
     setupSystemCaInjectable,
     setupRunnablesAfterWindowIsOpenedInjectable,
-    startCatalogSyncInjectable,
     startKubeConfigSyncInjectable,
   ].forEach((injectable) => {
     di.override(injectable, () => ({
