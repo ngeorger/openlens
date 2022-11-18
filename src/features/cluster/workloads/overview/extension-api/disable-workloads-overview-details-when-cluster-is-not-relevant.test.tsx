@@ -5,9 +5,9 @@
 import type { AsyncFnMock } from "@async-fn/jest";
 import asyncFn from "@async-fn/jest";
 import type { RenderResult } from "@testing-library/react";
-import type { ApplicationBuilder } from "../../../../../renderer/components/test-utils/get-application-builder";
+import type { ApplicationBuilder } from "../../../../test-utils/application-builder";
 import type { KubernetesCluster } from "../../../../../common/catalog-entities";
-import { getApplicationBuilder } from "../../../../../renderer/components/test-utils/get-application-builder";
+import { setupInitializingApplicationBuilder } from "../../../../test-utils/application-builder";
 import extensionShouldBeEnabledForClusterFrameInjectable from "../../../../../renderer/extension-loader/extension-should-be-enabled-for-cluster-frame.injectable";
 import navigateToWorkloadsOverviewInjectable from "../../../../../common/front-end-routing/routes/cluster/workloads/overview/navigate-to-workloads-overview.injectable";
 import React from "react";
@@ -19,9 +19,9 @@ describe("disable workloads overview details when cluster is not relevant", () =
     (cluster: KubernetesCluster) => Promise<boolean>
   >;
 
-  beforeEach(async () => {
-    builder = getApplicationBuilder();
+  setupInitializingApplicationBuilder(b => builder = b);
 
+  beforeEach(async () => {
     builder.setEnvironmentToClusterFrame();
     builder.beforeWindowStart((windowDi) => {
       windowDi.unoverride(extensionShouldBeEnabledForClusterFrameInjectable);
@@ -59,10 +59,6 @@ describe("disable workloads overview details when cluster is not relevant", () =
     navigateToWorkloadsOverview();
 
     builder.extensions.enable(testExtension);
-  });
-
-  afterEach(() => {
-    builder.quit();
   });
 
   describe("given not yet known if extension should be enabled for the cluster", () => {

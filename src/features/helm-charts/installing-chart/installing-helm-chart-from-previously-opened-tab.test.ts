@@ -5,8 +5,8 @@
 import type { AsyncFnMock } from "@async-fn/jest";
 import asyncFn from "@async-fn/jest";
 import type { RenderResult } from "@testing-library/react";
-import type { ApplicationBuilder } from "../../../renderer/components/test-utils/get-application-builder";
-import { getApplicationBuilder } from "../../../renderer/components/test-utils/get-application-builder";
+import type { ApplicationBuilder } from "../../test-utils/application-builder";
+import { setupInitializingApplicationBuilder } from "../../test-utils/application-builder";
 import { HelmChart } from "../../../common/k8s-api/endpoints/helm-charts.api";
 import getRandomInstallChartTabIdInjectable from "../../../renderer/components/dock/install-chart/get-random-install-chart-tab-id.injectable";
 import namespaceStoreInjectable from "../../../renderer/components/+namespaces/store.injectable";
@@ -28,9 +28,9 @@ describe("installing helm chart from previously opened tab", () => {
   let requestHelmChartValuesMock: AsyncFnMock<RequestHelmChartValues>;
   let storagesAreReady: () => Promise<void>;
 
-  beforeEach(() => {
-    builder = getApplicationBuilder();
+  setupInitializingApplicationBuilder(b => builder = b);
 
+  beforeEach(() => {
     builder.setEnvironmentToClusterFrame();
 
     requestHelmChartVersionsMock = asyncFn();
@@ -65,10 +65,6 @@ describe("installing helm chart from previously opened tab", () => {
           .mockReturnValueOnce("some-first-tab-id"),
       );
     });
-  });
-
-  afterEach(() => {
-    builder.quit();
   });
 
   describe("given tab for installing chart was previously opened, when application is started", () => {

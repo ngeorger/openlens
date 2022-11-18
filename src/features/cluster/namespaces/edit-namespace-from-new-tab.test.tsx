@@ -5,8 +5,8 @@
 import type { DiContainer } from "@ogre-tools/injectable";
 import type { RenderResult } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
-import type { ApplicationBuilder } from "../../../renderer/components/test-utils/get-application-builder";
-import { getApplicationBuilder } from "../../../renderer/components/test-utils/get-application-builder";
+import type { ApplicationBuilder } from "../../test-utils/application-builder";
+import { setupInitializingApplicationBuilder } from "../../test-utils/application-builder";
 import navigateToNamespacesInjectable from "../../../common/front-end-routing/routes/cluster/namespaces/navigate-to-namespaces.injectable";
 import createEditResourceTabInjectable from "../../../renderer/components/dock/edit-resource/edit-resource-tab.injectable";
 import getRandomIdForEditResourceTabInjectable from "../../../renderer/components/dock/edit-resource/get-random-id-for-edit-resource-tab.injectable";
@@ -33,9 +33,9 @@ describe("cluster/namespaces - edit namespace from new tab", () => {
   let showErrorNotificationMock: jest.Mock;
   let storagesAreReady: () => Promise<void>;
 
-  beforeEach(() => {
-    builder = getApplicationBuilder();
+  setupInitializingApplicationBuilder(b => builder = b);
 
+  beforeEach(() => {
     builder.setEnvironmentToClusterFrame();
 
     callForNamespaceMock = asyncFn();
@@ -102,10 +102,6 @@ describe("cluster/namespaces - edit namespace from new tab", () => {
       apiName: "namespaces",
       group: "v1",
     });
-  });
-
-  afterEach(() => {
-    builder.quit();
   });
 
   describe("when navigating to namespaces", () => {

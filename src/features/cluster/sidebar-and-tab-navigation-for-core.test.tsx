@@ -15,8 +15,8 @@ import { computed, runInAction } from "mobx";
 import { noop } from "lodash/fp";
 import routeIsActiveInjectable from "../../renderer/routes/route-is-active.injectable";
 import { frontEndRouteInjectionToken } from "../../common/front-end-routing/front-end-route-injection-token";
-import type { ApplicationBuilder } from "../../renderer/components/test-utils/get-application-builder";
-import { getApplicationBuilder } from "../../renderer/components/test-utils/get-application-builder";
+import type { ApplicationBuilder } from "../test-utils/application-builder";
+import { setupInitializingApplicationBuilder } from "../test-utils/application-builder";
 import writeJsonFileInjectable from "../../common/fs/write-json-file.injectable";
 import pathExistsInjectable from "../../common/fs/path-exists.injectable";
 import readJsonFileInjectable from "../../common/fs/read-json-file.injectable";
@@ -30,10 +30,10 @@ describe("cluster - sidebar and tab navigation for core", () => {
   let builder: ApplicationBuilder;
   let rendered: RenderResult;
 
+  setupInitializingApplicationBuilder(b => builder = b);
+
   beforeEach(() => {
     useFakeTime("2015-10-21T07:28:00Z");
-
-    builder = getApplicationBuilder();
 
     builder.setEnvironmentToClusterFrame();
 
@@ -45,10 +45,6 @@ describe("cluster - sidebar and tab navigation for core", () => {
         () => "/some-directory-for-lens-local-storage",
       );
     });
-  });
-
-  afterEach(() => {
-    builder.quit();
   });
 
   describe("given core registrations", () => {
