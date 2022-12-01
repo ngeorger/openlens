@@ -5622,7 +5622,7 @@ exports[`cluster/namespaces - edit namespace from new tab when navigating to nam
                     class="Spinner singleColor"
                     data-testid="saving-edit-resource-from-tab-for-some-first-tab-id"
                   />
-
+                   
                   Applying...
                 </div>
                 <button
@@ -9038,7 +9038,7 @@ exports[`cluster/namespaces - edit namespace from new tab when navigating to nam
                     class="Spinner singleColor"
                     data-testid="saving-edit-resource-from-tab-for-some-first-tab-id"
                   />
-
+                   
                   Applying...
                 </div>
                 <button
