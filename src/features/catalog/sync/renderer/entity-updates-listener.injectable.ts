@@ -13,7 +13,10 @@ const catalogEntityUpdatesListener = getMessageChannelListenerInjectable({
   handler: (di) => {
     const catalogEntityRegistry = di.inject(catalogEntityRegistryInjectable);
 
-    return (items) => catalogEntityRegistry.updateItems(items);
+    return (items) => {
+      console.log("got", items);
+      catalogEntityRegistry.updateItems(items);
+    };
   },
 });
 

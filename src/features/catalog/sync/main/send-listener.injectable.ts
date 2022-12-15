@@ -3,22 +3,16 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-import { getMessageChannelListenerInjectable } from "../../../../common/utils/channel/message-channel-listener-injection-token";
-import { catalogSendEntityUpdatesChannel } from "../common/sync-channels";
+import { getRequestChannelListenerInjectable } from "../../../../main/utils/channel/channel-listeners/listener-tokens";
+import { catalogInitialEntitiesChannel } from "../common/sync-channels";
 import catalogEntityChangeSetInjectable from "./entity-change-set.injectable";
-import entityUpdateBroadcasterInjectable from "./entity-update-broadcaster.injectable";
 
-const catalogSendEntityUpdatesListenerInjectable = getMessageChannelListenerInjectable({
-  channel: catalogSendEntityUpdatesChannel,
-  id: "main",
+const catalogSendEntityUpdatesListenerInjectable = getRequestChannelListenerInjectable({
+  channel: catalogInitialEntitiesChannel,
   handler: (di) => {
     const catalogEntityChangeSet = di.inject(catalogEntityChangeSetInjectable);
-    const entityUpdateBroadcaster = di.inject(entityUpdateBroadcasterInjectable);
 
-    return () => {
-      entityUpdateBroadcaster.cancel();
-      entityUpdateBroadcaster(catalogEntityChangeSet.get());
-    };
+    return () => catalogEntityChangeSet.get();
   },
 });
 

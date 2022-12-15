@@ -3,17 +3,21 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
+import catalogEntityRegistryInjectable from "../../../../renderer/api/catalog/entity/registry.injectable";
 import { beforeFrameStartsInjectionToken } from "../../../../renderer/before-frame-starts/tokens";
-import requestCatalogEntityUpdatesInjectable from "./request-entity-updates.injectable";
+import requestInitialCatalogEntitiesInjectable from "./request-entity-updates.injectable";
 
 const setupCatalogEntityUpdatesInjectable = getInjectable({
   id: "setup-catalog-entity-updates",
   instantiate: (di) => ({
     id: "setup-catalog-entity-updates",
-    run: () => {
-      const requestCatalogEntityUpdates = di.inject(requestCatalogEntityUpdatesInjectable);
+    run: async () => {
+      const requestInitialCatalogEntities = di.inject(requestInitialCatalogEntitiesInjectable);
+      const catalogEntityRegistry = di.inject(catalogEntityRegistryInjectable);
 
-      requestCatalogEntityUpdates();
+      const rawEntities = await requestInitialCatalogEntities();
+
+      catalogEntityRegistry.updateItems(rawEntities);
     },
   }),
   injectionToken: beforeFrameStartsInjectionToken,

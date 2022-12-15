@@ -19,6 +19,9 @@ const catalogSyncToRendererInjectable = getInjectable({
       reaction(
         () => catalogEntityChangeSet.get(),
         entityUpdateBroadcaster,
+        {
+          fireImmediately: true,
+        },
       )
     ));
   },

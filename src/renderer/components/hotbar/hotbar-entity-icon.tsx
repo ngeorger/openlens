@@ -95,7 +95,13 @@ class NonInjectedHotbarEntityIcon extends React.Component<HotbarEntityIconProps 
   }
 
   render() {
-    const { entity, className, ...elemProps } = this.props;
+    const {
+      entity,
+      className,
+      children,
+      onClick,
+      size,
+    } = this.props;
 
     return (
       <HotbarIcon
@@ -115,10 +121,12 @@ class NonInjectedHotbarEntityIcon extends React.Component<HotbarEntityIconProps 
             : entity.getName()
         )}
         avatarChildren={<EntityIcon entity={entity} />}
-        {...elemProps}
+        size={size}
+        onClick={onClick}
       >
         {this.renderLedIcon()}
         {this.renderKindIcon()}
+        {children}
       </HotbarIcon>
     );
   }
