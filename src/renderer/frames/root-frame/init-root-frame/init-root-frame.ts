@@ -6,7 +6,6 @@ import { delay } from "../../../../common/utils";
 import { broadcastMessage } from "../../../../common/ipc";
 import logger from "../../../../common/logger";
 import type { ExtensionLoading } from "../../../../extensions/extension-loader";
-import type { CatalogEntityRegistry } from "../../../api/catalog/entity/registry";
 import { bundledExtensionsLoaded } from "../../../../common/ipc/extension-handling";
 
 
@@ -21,7 +20,6 @@ interface Dependencies {
   // TODO: Remove dependencies being here only for correct timing of initialization
   bindProtocolAddRouteHandlers: () => void;
   lensProtocolRouterRenderer: { init: () => void };
-  catalogEntityRegistry: CatalogEntityRegistry;
 }
 
 const logPrefix = "[ROOT-FRAME]:";
@@ -33,11 +31,8 @@ export const initRootFrame =
     lensProtocolRouterRenderer,
     ipcRenderer,
     registerIpcListeners,
-    catalogEntityRegistry,
   }: Dependencies) =>
     async (unmountRoot: () => void) => {
-      catalogEntityRegistry.init();
-
       try {
       // maximum time to let bundled extensions finish loading
         const timeout = delay(10000);

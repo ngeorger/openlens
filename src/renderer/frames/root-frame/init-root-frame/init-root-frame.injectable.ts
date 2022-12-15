@@ -7,7 +7,6 @@ import { initRootFrame } from "./init-root-frame";
 import ipcRendererInjectable from "../../../utils/channel/ipc-renderer.injectable";
 import bindProtocolAddRouteHandlersInjectable from "../../../protocol-handler/bind-protocol-add-route-handlers/bind-protocol-add-route-handlers.injectable";
 import lensProtocolRouterRendererInjectable from "../../../protocol-handler/lens-protocol-router-renderer/lens-protocol-router-renderer.injectable";
-import catalogEntityRegistryInjectable from "../../../api/catalog/entity/registry.injectable";
 import registerIpcListenersInjectable from "../../../ipc/register-ipc-listeners.injectable";
 import loadExtensionsInjectable from "../../load-extensions.injectable";
 
@@ -19,7 +18,6 @@ const initRootFrameInjectable = getInjectable({
     ipcRenderer: di.inject(ipcRendererInjectable),
     bindProtocolAddRouteHandlers: di.inject(bindProtocolAddRouteHandlersInjectable),
     lensProtocolRouterRenderer: di.inject(lensProtocolRouterRendererInjectable),
-    catalogEntityRegistry: di.inject(catalogEntityRegistryInjectable),
   }),
 });
 
