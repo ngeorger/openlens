@@ -12,7 +12,7 @@ import type { GetDirnameOfPath } from "../../common/path/get-dirname.injectable"
 import type { GetBasenameOfPath } from "../../common/path/get-basename.injectable";
 import type { NormalizedPlatform } from "../../common/vars/normalized-platform.injectable";
 import type { Logger } from "../../common/logger";
-import type { RemovePath } from "../../common/fs/remove-path.injectable";
+import type { RemovePath } from "../../common/fs/remove.injectable";
 import type { PathExists } from "../../common/fs/path-exists.injectable";
 import type { ExecFile } from "../../common/fs/exec-file.injectable";
 import type { EnsureDirectory } from "../../common/fs/ensure-directory.injectable";
