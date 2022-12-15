@@ -6,8 +6,8 @@
 import { merge } from "lodash";
 import { action, makeObservable, observable } from "mobx";
 import type { PartialDeep } from "type-fest";
-import { BaseStore } from "../base-store";
-import logger from "../logger";
+import type { BaseStoreDependencies } from "../base-store/base-store";
+import { BaseStore } from "../base-store/base-store";
 
 export interface EntityPreferencesModel {
   /**
@@ -23,13 +23,12 @@ export interface EntityPreferencesStoreModel {
 export class EntityPreferencesStore extends BaseStore<EntityPreferencesStoreModel> {
   @observable preferences = observable.map<string, PartialDeep<EntityPreferencesModel>>();
 
-  constructor() {
-    super({
+  constructor(deps: BaseStoreDependencies) {
+    super(deps, {
       configName: "lens-entity-preferences-store",
     });
 
     makeObservable(this);
-    this.load();
   }
 
   @action
@@ -39,7 +38,7 @@ export class EntityPreferencesStore extends BaseStore<EntityPreferencesStoreMode
 
   @action
   protected fromStore(data: EntityPreferencesStoreModel): void {
-    logger.debug("EntityPreferencesStore.fromStore()", data);
+    this.dependencies.logger.debug("EntityPreferencesStore.fromStore()", data);
 
     this.preferences.replace(data.entities ?? []);
   }
