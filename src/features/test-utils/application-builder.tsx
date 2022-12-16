@@ -64,7 +64,6 @@ import shouldStartHiddenInjectable from "../../main/electron-app/features/should
 import fsInjectable from "../../common/fs/fs.injectable";
 import joinPathsInjectable from "../../common/path/join-paths.injectable";
 import homeDirectoryPathInjectable from "../../common/os/home-directory-path.injectable";
-import terminalSpawningPoolInjectable from "../../renderer/components/dock/terminal/terminal-spawning-pool.injectable";
 import type { ClusterId } from "../../common/cluster-types";
 import getClusterByIdInjectable from "../../common/cluster-store/get-by-id.injectable";
 import createClusterInjectable from "../../main/create-cluster/create-cluster.injectable";
@@ -606,8 +605,6 @@ export const setupInitializingApplicationBuilder = (init: (builder: ApplicationB
           } as Partial<NamespaceStore> as NamespaceStore;
 
           windowDi.override(namespaceStoreInjectable, () => namespaceStoreStub);
-          windowDi.unoverride(terminalSpawningPoolInjectable);
-          windowDi.permitSideEffects(terminalSpawningPoolInjectable);
         });
 
         builder.afterWindowStart(windowDi => {
