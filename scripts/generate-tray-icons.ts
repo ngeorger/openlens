@@ -3,10 +3,12 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-import { ensureDir, readFile } from "fs-extra";
+import fsExtra from "fs-extra";
 import { JSDOM } from "jsdom";
 import path from "path";
 import sharp from "sharp";
+
+const { ensureDir, readFile } = fsExtra;
 
 const size = Number(process.env.OUTPUT_SIZE || "16");
 const outputFolder = process.env.OUTPUT_DIR || "./static/build/tray";
