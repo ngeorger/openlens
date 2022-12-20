@@ -4,7 +4,7 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import entityPreferencesStoreInjectable from "../../common/entity-preferences/store.injectable";
-import { beforeFrameStartsInjectionToken } from "../before-frame-starts/tokens";
+import { beforeFrameStartsSecondInjectionToken } from "../before-frame-starts/tokens";
 
 const loadEntityPreferencesStoreInjectable = getInjectable({
   id: "load-entity-preferences-store",
@@ -16,7 +16,7 @@ const loadEntityPreferencesStoreInjectable = getInjectable({
       store.load();
     },
   }),
-  injectionToken: beforeFrameStartsInjectionToken,
+  injectionToken: beforeFrameStartsSecondInjectionToken,
 });
 
 export default loadEntityPreferencesStoreInjectable;

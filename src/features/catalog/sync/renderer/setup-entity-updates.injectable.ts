@@ -4,7 +4,7 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import catalogEntityRegistryInjectable from "../../../../renderer/api/catalog/entity/registry.injectable";
-import { beforeFrameStartsInjectionToken } from "../../../../renderer/before-frame-starts/tokens";
+import { beforeFrameStartsSecondInjectionToken } from "../../../../renderer/before-frame-starts/tokens";
 import requestInitialCatalogEntitiesInjectable from "./request-entity-updates.injectable";
 
 const setupCatalogEntityUpdatesInjectable = getInjectable({
@@ -20,7 +20,7 @@ const setupCatalogEntityUpdatesInjectable = getInjectable({
       catalogEntityRegistry.updateItems(rawEntities);
     },
   }),
-  injectionToken: beforeFrameStartsInjectionToken,
+  injectionToken: beforeFrameStartsSecondInjectionToken,
 });
 
 export default setupCatalogEntityUpdatesInjectable;
