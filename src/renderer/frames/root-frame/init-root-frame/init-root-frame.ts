@@ -67,7 +67,7 @@ export const initRootFrame =
 
       registerIpcListeners();
 
-      window.addEventListener("beforeunload", () => {
+      window.addEventListener("pagehide", () => {
         logger.info(`${logPrefix} Unload app`);
 
         unmountRoot();
