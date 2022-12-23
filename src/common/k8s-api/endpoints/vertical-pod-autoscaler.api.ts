@@ -8,6 +8,7 @@ import { KubeObject } from "../kube-object";
 import type { DerivedKubeApiOptions } from "../kube-api";
 import { KubeApi } from "../kube-api";
 import type { OptionVarient } from "../../utils";
+import type { ResourceApplyingStack } from "src/common/k8s/resource-stack";
 
 export enum HpaMetricType {
   Resource = "Resource",
@@ -17,7 +18,7 @@ export enum HpaMetricType {
   ContainerResource = "ContainerResource",
 }
 
-export interface HorizontalPodAutoscalerMetricTarget {
+export interface VerticalPodAutoscalerMetricTarget {
   kind: string;
   name: string;
   apiVersion: string;
@@ -57,7 +58,7 @@ export interface ResourceMetricSource {
   targetAverageValue?: string;
 }
 
-export interface BaseHorizontalPodAutoscalerMetricSpec {
+export interface BaseVerticalPodAutoscalerMetricSpec {
   containerResource: ContainerResourceMetricSource;
   external: ExternalMetricSource;
   object: ObjectMetricSource;
@@ -65,12 +66,12 @@ export interface BaseHorizontalPodAutoscalerMetricSpec {
   resource: ResourceMetricSource;
 }
 
-export type HorizontalPodAutoscalerMetricSpec =
-  | OptionVarient<HpaMetricType.Resource, BaseHorizontalPodAutoscalerMetricSpec, "resource">
-  | OptionVarient<HpaMetricType.External, BaseHorizontalPodAutoscalerMetricSpec, "external">
-  | OptionVarient<HpaMetricType.Object, BaseHorizontalPodAutoscalerMetricSpec, "object">
-  | OptionVarient<HpaMetricType.Pods, BaseHorizontalPodAutoscalerMetricSpec, "pods">
-  | OptionVarient<HpaMetricType.ContainerResource, BaseHorizontalPodAutoscalerMetricSpec, "containerResource">;
+export type VerticalPodAutoscalerMetricSpec =
+  | OptionVarient<HpaMetricType.Resource, BaseVerticalPodAutoscalerMetricSpec, "resource">
+  | OptionVarient<HpaMetricType.External, BaseVerticalPodAutoscalerMetricSpec, "external">
+  | OptionVarient<HpaMetricType.Object, BaseVerticalPodAutoscalerMetricSpec, "object">
+  | OptionVarient<HpaMetricType.Pods, BaseVerticalPodAutoscalerMetricSpec, "pods">
+  | OptionVarient<HpaMetricType.ContainerResource, BaseVerticalPodAutoscalerMetricSpec, "containerResource">;
 
 export interface ContainerResourceMetricStatus {
   container: string;
@@ -106,7 +107,7 @@ export interface ResourceMetricStatus {
   name: string;
 }
 
-export interface BaseHorizontalPodAutoscalerMetricStatus {
+export interface BaseVerticalPodAutoscalerMetricStatus {
   containerResource: ContainerResourceMetricStatus;
   external: ExternalMetricStatus;
   object: ObjectMetricStatus;
@@ -114,12 +115,12 @@ export interface BaseHorizontalPodAutoscalerMetricStatus {
   resource: ResourceMetricStatus;
 }
 
-export type HorizontalPodAutoscalerMetricStatus =
-  | OptionVarient<HpaMetricType.Resource, BaseHorizontalPodAutoscalerMetricStatus, "resource">
-  | OptionVarient<HpaMetricType.External, BaseHorizontalPodAutoscalerMetricStatus, "external">
-  | OptionVarient<HpaMetricType.Object, BaseHorizontalPodAutoscalerMetricStatus, "object">
-  | OptionVarient<HpaMetricType.Pods, BaseHorizontalPodAutoscalerMetricStatus, "pods">
-  | OptionVarient<HpaMetricType.ContainerResource, BaseHorizontalPodAutoscalerMetricStatus, "containerResource">;
+export type VerticalPodAutoscalerMetricStatus =
+  | OptionVarient<HpaMetricType.Resource, BaseVerticalPodAutoscalerMetricStatus, "resource">
+  | OptionVarient<HpaMetricType.External, BaseVerticalPodAutoscalerMetricStatus, "external">
+  | OptionVarient<HpaMetricType.Object, BaseVerticalPodAutoscalerMetricStatus, "object">
+  | OptionVarient<HpaMetricType.Pods, BaseVerticalPodAutoscalerMetricStatus, "pods">
+  | OptionVarient<HpaMetricType.ContainerResource, BaseVerticalPodAutoscalerMetricStatus, "containerResource">;
 
 export interface CrossVersionObjectReference {
   kind: string;
@@ -127,18 +128,48 @@ export interface CrossVersionObjectReference {
   apiVersion: string;
 }
 
-export interface HorizontalPodAutoscalerSpec {
-  scaleTargetRef: CrossVersionObjectReference;
-  minReplicas?: number;
-  maxReplicas: number;
-  metrics?: HorizontalPodAutoscalerMetricSpec[];
+export interface RecommendedContainerResources {
+  containerName: string;
+  target: ResourceApplyingStack;
+  lowerBound: ResourceApplyingStack;
+  upperBound: ResourceApplyingStack;
+  uncappedTarget: ResourceApplyingStack;
+}
+export interface RecommendedPodResources {
+  containerRecommendation: RecommendedContainerResources[];
 }
 
-export interface HorizontalPodAutoscalerStatus {
+export interface VerticalPodAutoscalerStatus {
+  recommendation: RecommendedPodResources;
   conditions?: BaseKubeObjectCondition[];
-  currentReplicas: number;
-  desiredReplicas: number;
-  currentMetrics?: HorizontalPodAutoscalerMetricStatus[];
+}
+
+export interface VerticalPodAutoscalerRecommenderSelector {
+  name: string;
+}
+
+export interface ContainerResourcePolicy {
+  containerName: string;
+  mode: ContainerScalingMode;
+  minAllowed: ResourceList;
+  maxAllowed: ResourceList;
+  controlledResources: ResourceList;
+}
+
+export interface PodResourcePolicy {
+  containerPolicies: ContainerResourcePolicy[];
+}
+
+export interface PodUpdatePolicy {
+  updateMode: string;
+  minReplicas: number;
+}
+
+export interface VerticalPodAutoscalerSpec {
+  targetRef: CrossVersionObjectReference;
+  updatePolicy: PodUpdatePolicy;
+  resourcePolicy: PodResourcePolicy;
+  recommenders: VerticalPodAutoscalerRecommenderSelector[];
 }
 
 interface MetricCurrentTarget {
@@ -148,12 +179,12 @@ interface MetricCurrentTarget {
 
 export class VerticalPodAutoscaler extends KubeObject<
   NamespaceScopedMetadata,
-  HorizontalPodAutoscalerStatus,
-  HorizontalPodAutoscalerSpec
+  VerticalPodAutoscalerStatus,
+  VerticalPodAutoscalerSpec
 > {
   static readonly kind = "VerticalPodAutoscaler";
   static readonly namespaced = true;
-  static readonly apiBase = "/apis/autoscaling/v2beta1/horizontalpodautoscalers";
+  static readonly apiBase = "/apis/autoscaling/v2beta1/verticalpodautoscalers";
 
   getMaxPods() {
     return this.spec.maxReplicas ?? 0;
@@ -191,7 +222,7 @@ export class VerticalPodAutoscaler extends KubeObject<
     return this.status?.currentMetrics ?? [];
   }
 
-  getMetricValues(metric: HorizontalPodAutoscalerMetricSpec): string {
+  getMetricValues(metric: VerticalPodAutoscalerMetricSpec): string {
     const {
       current = "unknown",
       target = "unknown",
@@ -210,7 +241,7 @@ export class VerticalPodAutoscalerApi extends KubeApi<VerticalPodAutoscaler> {
   }
 }
 
-function getMetricName(metric: HorizontalPodAutoscalerMetricSpec | HorizontalPodAutoscalerMetricStatus): string | undefined {
+function getMetricName(metric: VerticalPodAutoscalerMetricSpec | VerticalPodAutoscalerMetricStatus): string | undefined {
   switch (metric.type) {
     case HpaMetricType.Resource:
       return metric.resource.name;
@@ -290,7 +321,7 @@ function getContainerResourceMetricValue(currentMetric: ContainerResourceMetricS
   };
 }
 
-function getMetricCurrentTarget(spec: HorizontalPodAutoscalerMetricSpec, status: HorizontalPodAutoscalerMetricStatus[]): MetricCurrentTarget {
+function getMetricCurrentTarget(spec: VerticalPodAutoscalerMetricSpec, status: VerticalPodAutoscalerMetricStatus[]): MetricCurrentTarget {
   const currentMetric = status.find(m => (
     m.type === spec.type
     && getMetricName(m) === getMetricName(spec)
