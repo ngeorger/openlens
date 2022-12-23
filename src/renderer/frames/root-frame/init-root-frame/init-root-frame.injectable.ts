@@ -10,6 +10,7 @@ import lensProtocolRouterRendererInjectable from "../../../protocol-handler/lens
 import catalogEntityRegistryInjectable from "../../../api/catalog/entity/registry.injectable";
 import registerIpcListenersInjectable from "../../../ipc/register-ipc-listeners.injectable";
 import loadExtensionsInjectable from "../../load-extensions.injectable";
+import closeRendererLogFileInjectable from "../../../logger/close-renderer-log-file.injectable";
 
 const initRootFrameInjectable = getInjectable({
   id: "init-root-frame",
@@ -20,6 +21,7 @@ const initRootFrameInjectable = getInjectable({
     bindProtocolAddRouteHandlers: di.inject(bindProtocolAddRouteHandlersInjectable),
     lensProtocolRouterRenderer: di.inject(lensProtocolRouterRendererInjectable),
     catalogEntityRegistry: di.inject(catalogEntityRegistryInjectable),
+    closeFileLogging: di.inject(closeRendererLogFileInjectable),
   }),
 });
 

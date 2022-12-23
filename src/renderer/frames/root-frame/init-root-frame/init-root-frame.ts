@@ -14,6 +14,7 @@ interface Dependencies {
   loadExtensions: () => Promise<ExtensionLoading[]>;
 
   registerIpcListeners: () => void;
+  closeFileLogging: () => void;
 
   // TODO: Move usages of third party library behind abstraction
   ipcRenderer: { send: (name: string) => void };
@@ -34,6 +35,7 @@ export const initRootFrame =
     ipcRenderer,
     registerIpcListeners,
     catalogEntityRegistry,
+    closeFileLogging,
   }: Dependencies) =>
     async (unmountRoot: () => void) => {
       catalogEntityRegistry.init();
@@ -67,9 +69,9 @@ export const initRootFrame =
 
       registerIpcListeners();
 
-      window.addEventListener("pagehide", () => {
+      window.addEventListener("beforeunload", () => {
         logger.info(`${logPrefix} Unload app`);
-
+        closeFileLogging();
         unmountRoot();
-      });
+      }, { capture: true });
     };
