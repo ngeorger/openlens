@@ -25,7 +25,7 @@ import { apiKubeInjectionToken } from "./api-kube";
 import type AbortController from "abort-controller";
 import loggerInjectable from "../logger.injectable";
 import { matches } from "lodash/fp";
-import { action, makeObservable, observable } from "mobx";
+import { makeObservable, observable } from "mobx";
 
 /**
  * The options used for creating a `KubeApi`
@@ -342,7 +342,6 @@ export class KubeApi<
     throw new Error(`Can't find working API for the Kubernetes resource ${this.apiResource}`);
   }
 
-  @action
   protected async checkPreferredVersion() {
     if (this.fallbackApiBases && !this.doCheckPreferredVersion) {
       throw new Error("checkPreferredVersion must be enabled if fallbackApiBases is set in KubeApi");
