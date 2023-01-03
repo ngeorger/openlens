@@ -18,17 +18,33 @@ import type { KubernetesCluster } from "./catalog";
 import type { KubeApiDataFrom, KubeObjectStoreOptions } from "../../common/k8s-api/kube-object.store";
 import { KubeObjectStore as InternalKubeObjectStore } from "../../common/k8s-api/kube-object.store";
 import type { KubeJsonApiDataFor, KubeObject } from "../../common/k8s-api/kube-object";
-import type { KubeApi } from "../../common/k8s-api/kube-api";
+import type { KubeApiOptions } from "../../common/k8s-api/kube-api";
+import { KubeApi as InternalKubeApi } from "../../common/k8s-api/kube-api";
 import clusterFrameContextForNamespacedResourcesInjectable from "../../renderer/cluster-frame-context/for-namespaced-resources.injectable";
 import type { ClusterContext } from "../../renderer/cluster-frame-context/cluster-frame-context";
+import { getLegacyGlobalDiForExtensionApi } from "../as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
+import { storesAndApisCanBeCreatedInjectionToken } from "../../common/k8s-api/stores-apis-can-be-created.token";
 
 export const apiManager = asLegacyGlobalForExtensionApi(apiManagerInjectable);
 export const forCluster = asLegacyGlobalFunctionForExtensionApi(createKubeApiForClusterInjectable);
 export const forRemoteCluster = asLegacyGlobalFunctionForExtensionApi(createKubeApiForRemoteClusterInjectable);
-
-export { KubeApi } from "../../common/k8s-api/kube-api";
-
 export const createResourceStack = asLegacyGlobalFunctionForExtensionApi(createResourceStackInjectable);
+
+export class KubeApi<
+  Object extends KubeObject = KubeObject,
+  Data extends KubeJsonApiDataFor<Object> = KubeJsonApiDataFor<Object>,
+> extends InternalKubeApi<Object, Data> {
+  constructor(opts: KubeApiOptions<Object, Data>) {
+    super(opts);
+
+    const di = getLegacyGlobalDiForExtensionApi();
+    const storesAndApisCanBeCreated = di.inject(storesAndApisCanBeCreatedInjectionToken);
+
+    if (storesAndApisCanBeCreated) {
+      apiManager.registerApi(this as InternalKubeApi<Object, Data>);
+    }
+  }
+}
 
 /**
  * @deprecated Switch to using `Common.createResourceStack` instead
