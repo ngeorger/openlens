@@ -475,6 +475,6 @@
   "optionalDependencies": {
     "@swc/core-darwin-x64": "^1.3.24",
     "@swc/core-linux-x64-gnu": "^1.3.24",
-    "@swc/core-win32-x64-msvc": "^1.3.24"
+    "@swc/core-win32": "^1.2.42"
   }
 }
