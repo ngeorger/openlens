@@ -8,7 +8,7 @@ import "./vpa.scss";
 import React from "react";
 import { observer } from "mobx-react";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
-import type { VerticalPodAutoscaler } from "../../../common/k8s-api/endpoints/vertical-pod-autoscaler.api";
+// import type { VerticalPodAutoscaler } from "../../../common/k8s-api/endpoints/vertical-pod-autoscaler.api";
 import { Badge } from "../badge";
 import { cssNames, prevDefault } from "../../utils";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
@@ -38,24 +38,6 @@ interface Dependencies {
 
 @observer
 class NonInjectedVerticalPodAutoscalers extends React.Component<Dependencies> {
-  getTargets(vpa: VerticalPodAutoscaler) {
-    const metrics = vpa.getMetrics();
-
-    if (metrics.length === 0) {
-      return <p>--</p>;
-    }
-
-    const metricsRemain = metrics.length > 1 ? `+${metrics.length - 1} more...` : "";
-
-    return (
-      <p>
-        {vpa.getMetricValues(metrics[0])}
-        {" "}
-        {metricsRemain}
-      </p>
-    );
-  }
-
   render() {
     return (
       <SiblingsInTabLayout>
@@ -67,9 +49,6 @@ class NonInjectedVerticalPodAutoscalers extends React.Component<Dependencies> {
           sortingCallbacks={{
             [columnId.name]: vpa => vpa.getName(),
             [columnId.namespace]: vpa => vpa.getNs(),
-            [columnId.minPods]: vpa => vpa.getMinPods(),
-            [columnId.maxPods]: vpa => vpa.getMaxPods(),
-            [columnId.replicas]: vpa => vpa.getReplicas(),
             [columnId.age]: vpa => -vpa.getCreationTimestamp(),
           }}
           searchFilters={[
@@ -80,10 +59,6 @@ class NonInjectedVerticalPodAutoscalers extends React.Component<Dependencies> {
             { title: "Name", className: "name", sortBy: columnId.name },
             { className: "warning", showWithColumn: columnId.name },
             { title: "Namespace", className: "namespace", sortBy: columnId.namespace, id: columnId.namespace },
-            { title: "Metrics", className: "metrics", id: columnId.metrics },
-            { title: "Min Pods", className: "min-pods", sortBy: columnId.minPods, id: columnId.minPods },
-            { title: "Max Pods", className: "max-pods", sortBy: columnId.maxPods, id: columnId.maxPods },
-            { title: "Replicas", className: "replicas", sortBy: columnId.replicas, id: columnId.replicas },
             { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
             { title: "Status", className: "status scrollable", id: columnId.status },
           ]}
@@ -97,10 +72,6 @@ class NonInjectedVerticalPodAutoscalers extends React.Component<Dependencies> {
             >
               {vpa.getNs()}
             </a>,
-            this.getTargets(vpa),
-            vpa.getMinPods(),
-            vpa.getMaxPods(),
-            vpa.getReplicas(),
             <KubeObjectAge key="age" object={vpa} />,
             vpa.getConditions()
               .filter(({ isReady }) => isReady)
