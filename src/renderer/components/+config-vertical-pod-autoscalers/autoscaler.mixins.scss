@@ -3,14 +3,16 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-$hpa-status-colors: (
-  abletoscale: var(--colorOk),
+$vpa-status-colors: (
+  recommendationprovided: var(--colorOk),
   scalingactive: var(--colorInfo),
   scalinglimited: var(--colorSoftError),
 );
 
-@mixin hpa-status-bgc {
-  @each $status, $color in $hpa-status-colors {
+@mixin vpa-status-bgc {
+
+  @each $status,
+  $color in $vpa-status-colors {
     &.#{$status} {
       background: $color;
       color: white;

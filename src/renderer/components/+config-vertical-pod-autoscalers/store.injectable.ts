@@ -6,6 +6,7 @@ import { getInjectable } from "@ogre-tools/injectable";
 import assert from "assert";
 import { kubeObjectStoreInjectionToken } from "../../../common/k8s-api/api-manager/manager.injectable";
 import verticalPodAutoscalerApiInjectable from "../../../common/k8s-api/endpoints/vertical-pod-autoscaler.api.injectable";
+import clusterFrameContextForNamespacedResourcesInjectable from "../../cluster-frame-context/for-namespaced-resources.injectable";
 import storesAndApisCanBeCreatedInjectable from "../../stores-apis-can-be-created.injectable";
 import { VerticalPodAutoscalerStore } from "./store";
 
@@ -16,7 +17,9 @@ const verticalPodAutoscalerStoreInjectable = getInjectable({
 
     const api = di.inject(verticalPodAutoscalerApiInjectable);
 
-    return new VerticalPodAutoscalerStore(api);
+    return new VerticalPodAutoscalerStore({
+      context: di.inject(clusterFrameContextForNamespacedResourcesInjectable),
+    }, api);
   },
   injectionToken: kubeObjectStoreInjectionToken,
 });

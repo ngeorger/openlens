@@ -83,6 +83,13 @@ rules:
     resources:
       - horizontalpodautoscalers
       - horizontalpodautoscalers/status
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - autoscaling.k8s.io
+    resources:
       - verticalpodautoscalers
       - verticalpodautoscalers/status
     verbs:

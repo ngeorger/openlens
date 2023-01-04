@@ -5,9 +5,9 @@
 
 @import "autoscaler.mixins";
 
-.HpaDetails {
+.VpaDetails {
   .status {
-    @include hpa-status-bgc;
+    @include vpa-status-bgc;
   }
 
   .metrics .Table {
