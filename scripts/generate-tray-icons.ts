@@ -19,7 +19,6 @@ const noticeFile = path.resolve(__dirname, process.env.NOTICE_SVG_PATH || "../sr
 const spinnerFile = path.resolve(__dirname, process.env.SPINNER_SVG_PATH || "../src/renderer/components/icon/arrow-spinner.svg");
 
 async function ensureOutputFoler() {
-  console.log(outputFolder)
   await mkdir(outputFolder, {
     recursive: true,
   });
@@ -52,8 +51,6 @@ async function getBaseIconImage(system: TargetSystems) {
 
 async function generateImage(image: Buffer, size: number, namePrefix: string) {
   const filePath = path.join(outputFolder, `${namePrefix}.png`);
-
-  console.log(filePath);
 
   const buffer = await sharp(image)
     .resize({ width: size, height: size })
