@@ -73,13 +73,13 @@ import lensProxyPortInjectable from "../../main/lens-proxy/lens-proxy-port.injec
 import { beforeQuitOfBackEndInjectionToken } from "../../main/start-main-application/runnable-tokens/before-quit-of-back-end-injection-token";
 import { KubernetesCluster, LensKubernetesClusterStatus } from "../../common/catalog-entities";
 import listNamespacesForInjectable from "../../common/cluster/list-namespaces.injectable";
-import requestApiResourcesInjectable from "../../common/cluster/request-api-resources.injectable";
 import requestNamespaceListPermissionsForInjectable from "../../common/cluster/request-namespace-list-permissions.injectable";
 import { beforeQuitOfFrontEndInjectionToken } from "../../main/start-main-application/runnable-tokens/before-quit-of-front-end-injection-token";
 import { runManySyncFor } from "../../common/runnable/run-many-sync-for";
 import type { MemoryHistory } from "history";
 import { object } from "../../common/utils";
 import catalogEntityRegistryInjectable from "../../renderer/api/catalog/entity/registry.injectable";
+import requestApiResourcesInjectable from "../../main/cluster/request-api-resources.injectable";
 
 type Callback = (di: DiContainer) => void | Promise<void>;
 
