@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const size = Number(process.env.OUTPUT_SIZE || "16");
-const outputFolder = path.resolve(process.env.OUTPUT_DIR || "./build/tray");
+const outputFolder = path.resolve(process.env.OUTPUT_DIR || "./static/build/tray");
 const inputFile = path.resolve(__dirname, process.env.INPUT_SVG_PATH || "../src/renderer/components/icon/logo-lens.svg");
 const noticeFile = path.resolve(__dirname, process.env.NOTICE_SVG_PATH || "../src/renderer/components/icon/notice.svg");
 const spinnerFile = path.resolve(__dirname, process.env.SPINNER_SVG_PATH || "../src/renderer/components/icon/arrow-spinner.svg");
