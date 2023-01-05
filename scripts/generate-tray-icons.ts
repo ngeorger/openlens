@@ -3,25 +3,26 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-import fsExtra from "fs-extra";
+import { writeFile, mkdir, readFile } from "fs/promises";
 import { JSDOM } from "jsdom";
 import path from "path";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
-const { ensureDir, readFile } = fsExtra;
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const size = Number(process.env.OUTPUT_SIZE || "16");
-const outputFolder = process.env.OUTPUT_DIR || "./static/build/tray";
-const inputFile = process.env.INPUT_SVG_PATH || path.resolve(__dirname, "../src/renderer/components/icon/logo-lens.svg");
-const noticeFile = process.env.NOTICE_SVG_PATH || path.resolve(__dirname, "../src/renderer/components/icon/notice.svg");
-const spinnerFile = process.env.SPINNER_SVG_PATH || path.resolve(__dirname, "../src/renderer/components/icon/arrow-spinner.svg");
+const outputFolder = path.resolve(process.env.OUTPUT_DIR || "./build/tray");
+const inputFile = path.resolve(__dirname, process.env.INPUT_SVG_PATH || "../src/renderer/components/icon/logo-lens.svg");
+const noticeFile = path.resolve(__dirname, process.env.NOTICE_SVG_PATH || "../src/renderer/components/icon/notice.svg");
+const spinnerFile = path.resolve(__dirname, process.env.SPINNER_SVG_PATH || "../src/renderer/components/icon/arrow-spinner.svg");
 
 async function ensureOutputFoler() {
-  await ensureDir(outputFolder);
+  console.log(outputFolder)
+  await mkdir(outputFolder, {
+    recursive: true,
+  });
 }
 
 function getSvgStyling(colouring: "dark" | "light"): string {
@@ -50,10 +51,16 @@ async function getBaseIconImage(system: TargetSystems) {
 }
 
 async function generateImage(image: Buffer, size: number, namePrefix: string) {
-  sharp(image)
+  const filePath = path.join(outputFolder, `${namePrefix}.png`);
+
+  console.log(filePath);
+
+  const buffer = await sharp(image)
     .resize({ width: size, height: size })
     .png()
-    .toFile(path.join(outputFolder, `${namePrefix}.png`));
+    .toBuffer();
+
+  await writeFile(filePath, buffer);
 }
 
 async function generateImages(image: Buffer, size: number, name: string) {
