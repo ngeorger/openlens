@@ -109,37 +109,33 @@ async function getIconImage(system: TargetSystems, filePath: string) {
   return Buffer.from(root.outerHTML);
 }
 
-async function generateTrayIcons() {
-  try {
-    console.log("Generating tray icon pngs");
-    await ensureOutputFoler();
+try {
+  console.log("Generating tray icon pngs");
+  await ensureOutputFoler();
 
-    const baseIconTemplateImage = await getBaseIconImage("macos");
-    const baseIconImage = await getBaseIconImage("windows-or-linux");
+  const baseIconTemplateImage = await getBaseIconImage("macos");
+  const baseIconImage = await getBaseIconImage("windows-or-linux");
 
-    const updateAvailableTemplateImage = await generateImageWithSvg(baseIconTemplateImage, "macos", noticeFile);
-    const updateAvailableImage = await generateImageWithSvg(baseIconImage, "windows-or-linux", noticeFile);
+  const updateAvailableTemplateImage = await generateImageWithSvg(baseIconTemplateImage, "macos", noticeFile);
+  const updateAvailableImage = await generateImageWithSvg(baseIconImage, "windows-or-linux", noticeFile);
 
-    const checkingForUpdatesTemplateImage = await generateImageWithSvg(baseIconTemplateImage, "macos", spinnerFile);
-    const checkingForUpdatesImage = await generateImageWithSvg(baseIconImage, "windows-or-linux", spinnerFile);
+  const checkingForUpdatesTemplateImage = await generateImageWithSvg(baseIconTemplateImage, "macos", spinnerFile);
+  const checkingForUpdatesImage = await generateImageWithSvg(baseIconImage, "windows-or-linux", spinnerFile);
 
-    await Promise.all([
-      // Templates are for macOS only
-      generateImages(baseIconTemplateImage, size, "trayIconTemplate"),
-      generateImages(updateAvailableTemplateImage, size, "trayIconUpdateAvailableTemplate"),
-      generateImages(updateAvailableTemplateImage, size, "trayIconUpdateAvailableTemplate"),
-      generateImages(checkingForUpdatesTemplateImage, size, "trayIconCheckingForUpdatesTemplate"),
+  await Promise.all([
+    // Templates are for macOS only
+    generateImages(baseIconTemplateImage, size, "trayIconTemplate"),
+    generateImages(updateAvailableTemplateImage, size, "trayIconUpdateAvailableTemplate"),
+    generateImages(updateAvailableTemplateImage, size, "trayIconUpdateAvailableTemplate"),
+    generateImages(checkingForUpdatesTemplateImage, size, "trayIconCheckingForUpdatesTemplate"),
 
-      // Non-templates are for windows and linux
-      generateImages(baseIconImage, size, "trayIcon"),
-      generateImages(updateAvailableImage, size, "trayIconUpdateAvailable"),
-      generateImages(checkingForUpdatesImage, size, "trayIconCheckingForUpdates"),
-    ]);
+    // Non-templates are for windows and linux
+    generateImages(baseIconImage, size, "trayIcon"),
+    generateImages(updateAvailableImage, size, "trayIconUpdateAvailable"),
+    generateImages(checkingForUpdatesImage, size, "trayIconCheckingForUpdates"),
+  ]);
 
-    console.log("Generated all images");
-  } catch (error) {
-    console.error(error);
-  }
+  console.log("Generated all images");
+} catch (error) {
+  console.error(error);
 }
-
-generateTrayIcons();
